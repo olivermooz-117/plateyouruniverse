@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Cosmic Emporium | Planets, Stars & Galaxies | Bitcoin</title>
+  <!-- Google Fonts & Smooth Scroll -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #01010e;
+      font-family: 'Inter', sans-serif;
+      color: #edeef7;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* cosmic animated background */
+    .stars-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: radial-gradient(ellipse at 20% 30%, #03031a, #000000);
+    }
+
+    .stars-bg::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 15% 40%, #fff, rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 72% 18%, #f9f3c1, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 95% 70%, #fffaec, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 33% 85%, #e0eaff, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 48% 12%, #ffffff, rgba(0,0,0,0));
+      background-size: 200px 200px;
+      background-repeat: repeat;
+      opacity: 0.7;
+      animation: starTwinkle 4s infinite alternate;
+    }
+
+    @keyframes starTwinkle {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    /* glowing orbs for nebula effect */
+    .nebula {
+      position: fixed;
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(80,30,150,0.2) 0%, rgba(0,0,0,0) 70%);
+      border-radius: 50%;
+      top: -20vh;
+      right: -20vw;
+      z-index: -1;
+      filter: blur(70px);
+      pointer-events: none;
+    }
+    .nebula2 {
+      bottom: -30vh;
+      left: -20vw;
+      top: auto;
+      background: radial-gradient(circle, rgba(0,100,120,0.25) 0%, rgba(0,0,0,0) 70%);
+      width: 80vw;
+      height: 80vw;
+      filter: blur(100px);
+    }
+
+    /* container & layout */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+    }
+
+    /* header & nav */
+    .logo-area {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFD966, #B873FF, #6AD4FF);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 2px;
+    }
+    .logo span {
+      font-size: 1.8rem;
+    }
+    .tagline {
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: #9aaec0;
+      border-left: 1px solid #3e4b5e;
+      padding-left: 1rem;
+      margin-left: 0.5rem;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(100, 140, 200, 0.3);
+      padding-bottom: 1rem;
+    }
+    .cart-icon {
+      font-size: 1.6rem;
+      background: rgba(20, 30, 55, 0.7);
+      backdrop-filter: blur(6px);
+      padding: 0.6rem 1.2rem;
+      border-radius: 60px;
+      border: 1px solid rgba(255,200,100,0.4);
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .cart-icon:hover {
+      background: rgba(80, 100, 160, 0.6);
+      border-color: #ffcd7e;
+      transform: scale(1.02);
+    }
+    #cart-count {
+      background: #f5a623;
+      color: #0a0c1a;
+      font-weight: bold;
+      border-radius: 40px;
+      padding: 0.1rem 0.6rem;
+      font-size: 0.9rem;
+    }
+
+    /* hero section */
+    .hero {
+      text-align: center;
+      margin: 3rem 0 3.5rem;
+    }
+    .hero h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(120deg, #fff2d0, #c0b9ff, #7ff9ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 18px rgba(150,100,255,0.3);
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 1rem auto 0;
+      color: #b9cef0;
+    }
+
+    /* category filter tabs */
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .filter-btn {
+      background: rgba(15, 20, 40, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(110, 150, 220, 0.5);
+      padding: 0.6rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #ccdeff;
+      font-family: 'Inter', sans-serif;
+    }
+    .filter-btn.active {
+      background: linear-gradient(145deg, #4c3b8a, #2a1f55);
+      border-color: #e9b56e;
+      color: white;
+      box-shadow: 0 0 12px rgba(210, 150, 80, 0.6);
+    }
+    .filter-btn:hover {
+      border-color: #f3c26b;
+      background: rgba(50, 65, 110, 0.9);
+    }
+
+    /* product grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0 4rem;
+    }
+
+    /* product card */
+    .product-card {
+      background: rgba(12, 18, 35, 0.65);
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+      overflow: hidden;
+      border: 1px solid rgba(110, 150, 230, 0.3);
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 35px -15px rgba(0,0,0,0.6);
+    }
+    .product-card:hover {
+      transform: translateY(-8px);
+      border-color: #ffc285;
+      box-shadow: 0 25px 40px -12px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,180,80,0.2);
+    }
+    .card-img {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 20%, rgba(30, 40, 70, 0.8), rgba(0,0,0,0.5));
+      position: relative;
+      overflow: hidden;
+    }
+    /* Google Earth / Satellite style badge for planets */
+    .earth-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(8px);
+      padding: 5px 10px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(66, 133, 244, 0.7);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+    }
+    .earth-badge i {
+      color: #4285F4;
+      font-size: 0.8rem;
+    }
+    .planet-icon-large {
+      font-size: 5rem;
+      filter: drop-shadow(0 0 12px rgba(66,133,244,0.5));
+      transition: transform 0.3s ease;
+    }
+    .star-icon-large, .galaxy-icon-large {
+      font-size: 5rem;
+      filter: drop-shadow(0 0 10px gold);
+    }
+    .product-card:hover .planet-icon-large {
+      transform: scale(1.05);
+    }
+    .card-content {
+      padding: 1.5rem;
+    }
+    .product-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .category-badge {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      background: rgba(220, 180, 80, 0.25);
+      display: inline-block;
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      margin-bottom: 0.8rem;
+      color: #ffdc97;
+    }
+    .description {
+      font-size: 0.9rem;
+      color: #cbd5e6;
+      line-height: 1.4;
+      margin: 0.7rem 0;
+    }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin: 1rem 0 1.2rem;
+      flex-wrap: wrap;
+    }
+    .price {
+      font-size: 1.7rem;
+      font-weight: 800;
+      font-family: monospace;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #F7931A, #FFA940);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .price i {
+      font-size: 1.3rem;
+      color: #F7931A;
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+    }
+    .price small {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #ffc285;
+    }
+    .buy-btn {
+      background: linear-gradient(95deg, #F7931A, #FF5E00);
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 40px;
+      font-weight: bold;
+      font-family: 'Inter', sans-serif;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 12px rgba(247,147,26,0.3);
+    }
+    .buy-btn:hover {
+      background: linear-gradient(95deg, #FFA940, #FF6B1A);
+      transform: scale(1.02);
+      box-shadow: 0 8px 18px rgba(247,147,26,0.5);
+    }
+
+    /* cart sidebar */
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 460px;
+      height: 100%;
+      background: rgba(5, 8, 20, 0.96);
+      backdrop-filter: blur(18px);
+      z-index: 1000;
+      transition: right 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+      border-left: 1px solid rgba(255,200,120,0.4);
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-overlay.open {
+      right: 0;
+    }
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid #2e3a5c;
+      font-size: 1.6rem;
+      font-weight: bold;
+      font-family: 'Orbitron', monospace;
+    }
+    .close-cart {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: #f0b27a;
+      cursor: pointer;
+    }
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(30, 40, 70, 0.5);
+      margin-bottom: 1rem;
+      padding: 0.8rem;
+      border-radius: 1.2rem;
+      border-left: 4px solid #F7931A;
+    }
+    .cart-item-info h4 {
+      font-size: 1rem;
+    }
+    .cart-item-price {
+      font-weight: bold;
+      color: #F7931A;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .remove-item {
+      background: #332244;
+      border: none;
+      color: #ffb57c;
+      padding: 0.3rem 0.7rem;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .cart-total {
+      padding: 1.5rem;
+      border-top: 1px solid #475e8a;
+      font-size: 1.3rem;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+    }
+    .checkout-btn {
+      margin: 1rem 1.5rem 2rem;
+      background: linear-gradient(120deg, #F7931A, #FF5E00);
+      border: none;
+      padding: 1rem;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: 0.2s;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .empty-cart {
+      text-align: center;
+      padding: 2rem;
+      color: #bbccff;
+    }
+
+    /* toast */
+    .toast-msg {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1f2a48e6;
+      backdrop-filter: blur(8px);
+      border: 1px solid #ffcd7e;
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      color: #FFE5B4;
+      font-weight: 500;
+      z-index: 1100;
+      transition: 0.2s;
+      pointer-events: none;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid rgba(90, 120, 160, 0.3);
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #7d8fb0;
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        padding: 1rem;
+      }
+      .hero h1 {
+        font-size: 2.3rem;
+      }
+      .product-title {
+        font-size: 1.4rem;
+      }
+      .price {
+        font-size: 1.4rem;
+      }
+    }
+    .bitcoin-icon-small {
+      font-size: 0.9rem;
+      margin-right: 3px;
+    }
+  </style>
+</head>
+<body>
+<div class="stars-bg"></div>
+<div class="nebula"></div>
+<div class="nebula nebula2"></div>
+
+<div class="container">
+  <header>
+    <div class="logo-area">
+      <div class="logo"><span>✦</span> COSMIC BAZAAR <span>☄️</span></div>
+      <div class="tagline">Own the infinite — Planets, Stars & Galaxies | ₿ Bitcoin Accepted</div>
+    </div>
+    <div class="cart-icon" id="cart-icon-btn">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cart-count">0</span>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1>Acquire celestial wonders</h1>
+    <p>Title deeds to planets, naming rights for stars, and full galactic clusters — officially licensed by the Interstellar Registry. Pay with Bitcoin ₿.</p>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">All cosmic assets</button>
+    <button class="filter-btn" data-filter="planet">🌍 Planets</button>
+    <button class="filter-btn" data-filter="star">✨ Stars</button>
+    <button class="filter-btn" data-filter="galaxy">🌀 Galaxies</button>
+  </div>
+
+  <div id="products-container" class="products-grid"></div>
+  <footer>✨ Every purchase includes a digital certificate & cosmic coordinates. All prices in Bitcoin (₿). Secure interstellar transactions. ✨</footer>
+</div>
+
+<!-- Cart Sidebar -->
+<div id="cart-sidebar" class="cart-overlay">
+  <div class="cart-header">
+    <span><i class="fas fa-shopping-cart"></i> Stellar Cart (₿)</span>
+    <button class="close-cart" id="close-cart-btn">&times;</button>
+  </div>
+  <div id="cart-items-list" class="cart-items">
+    <div class="empty-cart">✨ Your cosmic collection is empty. Add planets, stars or galaxies ✨</div>
+  </div>
+  <div class="cart-total">
+    <span>Total (Bitcoin)</span>
+    <span id="cart-total-price">0 ₿</span>
+  </div>
+  <button class="checkout-btn" id="checkout-btn"><i class="fab fa-bitcoin"></i> Acquire collection with BTC</button>
+</div>
+<div id="toast-message" class="toast-msg" style="opacity:0; visibility: hidden;"></div>
+
+<script>
+  // ----- CATALOG DATA (planets, stars, galaxies) with BTC prices
+  const products = [
+    { id: 1, name: "Aetheria", category: "planet", price: 0.0425, icon: "🪐", desc: "Verdant ringed planet with crystalline oceans, 2 moons included. Google Earth satellite view available." },
+    { id: 2, name: "Pyroclast", category: "planet", price: 0.0332, icon: "🌋", desc: "Molten iron world with lava rivers, prime for geothermal mining rights." },
+    { id: 3, name: "Glacies Mundi", category: "planet", price: 0.0389, icon: "❄️", desc: "Frozen diamond planet, shimmering ice rings, eternal auroras — 3D satellite mapping." },
+    { id: 4, name: "Sol Invictus", category: "star", price: 0.1120, icon: "☀️", desc: "G-type main sequence star, perfect for a life-bearing system." },
+    { id: 5, name: "Nebula Heart", category: "star", price: 0.1590, icon: "🌟", desc: "Blue supergiant, rare spectral class, intense luminosity." },
+    { id: 6, name: "Cinder Star", category: "star", price: 0.0675, icon: "🔥", desc: "Dying red giant, dramatic expansion potential, great for collectors." },
+    { id: 7, name: "Andromeda's Veil", category: "galaxy", price: 0.4250, icon: "🌌", desc: "Spiral galaxy with 200B stars, includes galactic naming rights." },
+    { id: 8, name: "Whirlpool Expanse", category: "galaxy", price: 0.2990, icon: "🌀", desc: "Grand design spiral, interacting dwarf companion included." },
+    { id: 9, name: "Obsidian Eye", category: "galaxy", price: 0.5200, icon: "⚫", desc: "Elliptical supergalaxy, ancient core, dark matter rich." }
+  ];
+
+  // Cart state
+  let cart = [];
+
+  // DOM elements
+  const productsContainer = document.getElementById('products-container');
+  const cartSidebar = document.getElementById('cart-sidebar');
+  const cartItemsList = document.getElementById('cart-items-list');
+  const cartTotalSpan = document.getElementById('cart-total-price');
+  const cartCountSpan = document.getElementById('cart-count');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  let activeFilter = 'all';
+
+  // Helper: show toast
+  function showToast(message, duration = 2200) {
+    const toast = document.getElementById('toast-message');
+    toast.textContent = message;
+    toast.style.opacity = '1';
+    toast.style.visibility = 'visible';
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.visibility = 'hidden';
+    }, duration);
+  }
+
+  // Format BTC price nicely
+  function formatBTC(btcValue) {
+    if (btcValue < 0.001) return btcValue.toFixed(6) + ' ₿';
+    if (btcValue < 0.01) return btcValue.toFixed(5) + ' ₿';
+    if (btcValue < 1) return btcValue.toFixed(4) + ' ₿';
+    return btcValue.toFixed(3) + ' ₿';
+  }
+
+  // Update cart UI
+  function updateCartUI() {
+    const totalItems = cart.reduce((sum, item) => sum + 1, 0);
+    cartCountSpan.innerText = totalItems;
+    const totalPriceBTC = cart.reduce((sum, item) => sum + item.price, 0);
+    cartTotalSpan.innerText = formatBTC(totalPriceBTC);
+
+    if (cart.length === 0) {
+      cartItemsList.innerHTML = `<div class="empty-cart">✨ Your cosmic collection is empty. Add planets, stars or galaxies ✨</div>`;
+      return;
+    }
+    cartItemsList.innerHTML = '';
+    cart.forEach((item, idx) => {
+      const cartItemDiv = document.createElement('div');
+      cartItemDiv.className = 'cart-item';
+      cartItemDiv.innerHTML = `
+        <div class="cart-item-info">
+          <h4>${item.icon} ${item.name}</h4>
+          <small>${item.category === 'planet' ? 'Planet' : item.category === 'star' ? 'Star' : 'Galaxy'}</small>
+        </div>
+        <div>
+          <span class="cart-item-price"><i class="fab fa-bitcoin"></i> ${formatBTC(item.price)}</span>
+          <button class="remove-item" data-idx="${idx}"><i class="fas fa-trash-alt"></i></button>
+        </div>
+      `;
+      cartItemsList.appendChild(cartItemDiv);
+    });
+    document.querySelectorAll('.remove-item').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(btn.getAttribute('data-idx'));
+        const removed = cart[idx];
+        cart.splice(idx, 1);
+        updateCartUI();
+        showToast(`🗑️ Removed ${removed.name} from cosmic cart.`);
+        renderProducts();
+      });
+    });
+  }
+
+  function addToCart(product) {
+    cart.push({ 
+      id: product.id, 
+      name: product.name, 
+      price: product.price, 
+      category: product.category,
+      icon: product.icon
+    });
+    updateCartUI();
+    showToast(`✨ ${product.name} added to your galactic collection! Price: ${formatBTC(product.price)} BTC ✨`);
+    renderProducts(); // subtle refresh to keep any dynamic state (no highlight needed)
+  }
+
+  // Render products with "Google Earth" style badge for planets
+  function renderProducts() {
+    let filtered = products;
+    if (activeFilter !== 'all') {
+      filtered = products.filter(p => p.category === activeFilter);
+    }
+    if (productsContainer) {
+      productsContainer.innerHTML = '';
+      filtered.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        let categoryLabel = product.category === 'planet' ? '🌍 Planet' : (product.category === 'star' ? '⭐ Star' : '🌀 Galaxy');
+        
+        // Different image area based on category: planets get Google Earth style badge
+        let imageHtml = '';
+        if (product.category === 'planet') {
+          imageHtml = `
+            <div class="card-img">
+              <div class="planet-icon-large">${product.icon}</div>
+              <div class="earth-badge">
+                <i class="fas fa-map-marker-alt"></i> 
+                <i class="fas fa-globe-americas"></i> Google Earth™ view
+              </div>
+            </div>
+          `;
+        } else if (product.category === 'star') {
+          imageHtml = `
+            <div class="card-img">
+              <div class="star-icon-large">${product.icon}</div>
+            </div>
+          `;
+        } else {
+          imageHtml = `
+            <div class="card-img">
+              <div class="galaxy-icon-large">${product.icon}</div>
+            </div>
+          `;
+        }
+        
+        card.innerHTML = `
+          ${imageHtml}
+          <div class="card-content">
+            <div class="category-badge">${categoryLabel}</div>
+            <div class="product-title">${product.name}</div>
+            <div class="description">${product.desc}</div>
+            <div class="price-row">
+              <span class="price"><i class="fab fa-bitcoin"></i> ${formatBTC(product.price)}</span>
+              <button class="buy-btn" data-id="${product.id}"><i class="fas fa-cart-plus"></i> Acquire with BTC</button>
+            </div>
+          </div>
+        `;
+        productsContainer.appendChild(card);
+      });
+      document.querySelectorAll('.buy-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const productId = parseInt(btn.getAttribute('data-id'));
+          const productToAdd = products.find(p => p.id === productId);
+          if (productToAdd) addToCart(productToAdd);
+        });
+      });
+    }
+  }
+
+  function setActiveFilter(category) {
+    activeFilter = category;
+    filterBtns.forEach(btn => {
+      if (btn.getAttribute('data-filter') === category) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+    renderProducts();
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filterVal = btn.getAttribute('data-filter');
+      setActiveFilter(filterVal);
+    });
+  });
+
+  const cartIconBtn = document.getElementById('cart-icon-btn');
+  const closeCartBtn = document.getElementById('close-cart-btn');
+  function openCart() { cartSidebar.classList.add('open'); }
+  function closeCart() { cartSidebar.classList.remove('open'); }
+  cartIconBtn.addEventListener('click', openCart);
+  closeCartBtn.addEventListener('click', closeCart);
+
+  const checkoutBtn = document.getElementById('checkout-btn');
+  checkoutBtn.addEventListener('click', () => {
+    if (cart.length === 0) {
+      showToast("Your cosmic cart is empty! Add planets, stars or galaxies first 🚀", 1800);
+      return;
+    }
+    const totalBTC = cart.reduce((s, i) => s + i.price, 0);
+    showToast(`🛸 Purchase successful! You now own ${cart.length} celestial wonders. Total: ${formatBTC(totalBTC)} BTC. Certificate emailed.`, 3500);
+    cart = [];
+    updateCartUI();
+    renderProducts();
+    closeCart();
+  });
+
+  window.addEventListener('click', (e) => {
+    if (cartSidebar.classList.contains('open') && !cartSidebar.contains(e.target) && !cartIconBtn.contains(e.target)) {
+      closeCart();
+    }
+  });
+
+  renderProducts();
+  updateCartUI();
+</script>
+</body>
+</html>
